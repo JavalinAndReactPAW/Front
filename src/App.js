@@ -1,28 +1,50 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import Nav from './Nav'
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            tables: []
+        };
+    }
+
+    componentDidMount() {
+        fetch("http://localhost:7000/").then(result => {
+            return result.json();
+        }).then(data => this.setState({tables: data}));
+    }
+
+    createRow() {
+        let row = [];
+        for (let i = 0; i < this.state.tables.length; i++) {
+            row.push(<div className="col-md-3" key={this.state.tables[i].id}>
+                <div className="card">
+                    <div className="card-body">
+                        {this.state.tables[i].name}
+                    </div>
+                </div>
+            </div>)
+        }
+
+        return row;
+    }
+
+    render() {
+        return (
+            <div>
+                <Nav/>
+                <div className="container">
+                    <h1 className="mt-5">Tablice</h1>
+                    <div className="row">
+                        {this.createRow()}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default App;
