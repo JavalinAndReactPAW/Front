@@ -18,18 +18,14 @@ export default class Card extends Component {
     createRow() {
         let row = [];
         let card = this.state.card;
-        console.log(card);
-        console.log(card.id);
-
-            row.push(
-                <div className="col-md-3" key={card.id}>
-                        <div className="card">
-                            <div className="card-body">
-                                {card.value}
-                            </div>
-                        </div>
-                </div>);
-
+        row.push(
+            <div className="col-md-3" key={card}>
+                <div className="card">
+                    <div className="card-body">
+                        {card.value}
+                     </div>
+                </div>
+            </div>);
         return row;
     }
 

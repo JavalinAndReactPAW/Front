@@ -2,6 +2,11 @@
 
 }
 
+.listName {
+    text-align: center;
+    font-size: 150%;
+}
+
 .list-body {
-    background: lightgoldenrodyellow;
+    background: lightgreen;
 }

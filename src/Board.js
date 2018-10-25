@@ -28,7 +28,7 @@ export default class Board extends Component {
                     <div className="col-md-3" key={list[i].id}>
                         <div className="card">
                             <div className="card-body">
-                                <p>{list[i].name}</p>
+                                <p className="listName">{list[i].name}</p>
                                 {this.fillList(cards)}
                             </div>
                         </div>
@@ -42,7 +42,7 @@ export default class Board extends Component {
         let row = [];
         for(let i = 0; i < cards.length; i++) {
             row.push(
-                <div className="" key={cards[i].id}>
+                <div key={cards[i].id}>
                     <Link to={'/card/' + cards[i].id}>
                     <div className="list">
                         <div className="list-body">
