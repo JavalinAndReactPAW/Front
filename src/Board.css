@@ -1,0 +1,12 @@
+.list {
+
+}
+
+.listName {
+    text-align: center;
+    font-size: 150%;
+}
+
+.list-body {
+    background: lightgreen;
+}

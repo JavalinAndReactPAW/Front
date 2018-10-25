@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Home from "./Home";
 import Board from "./Board";
 import Nav from "./Nav";
+import Card from "./Card";
 
 class App extends Component {
     render() {
@@ -14,6 +15,7 @@ class App extends Component {
                     <Nav/>
                     <Route exact path="/" component={Home}/>
                     <Route path="/board/:id" component={Board}/>
+                    <Route path="/card/:id" component={Card}/>
                 </div>
             </Router>
         );
