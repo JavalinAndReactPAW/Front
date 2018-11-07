@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './Home.css';
 import {Link} from "react-router-dom";
+import {setLogged} from "../Login/Login"
 
 export default class Home extends Component {
     constructor(props) {
@@ -8,12 +9,11 @@ export default class Home extends Component {
         this.state = {
             tables: []
         };
+        loadBoards = loadBoards.bind(this);
     }
 
     componentDidMount() {
-        fetch("http://localhost:7000/").then(result => {
-            return result.json();
-        }).then(data => this.setState({tables: data}));
+        loadBoards();
     }
 
     createRow() {
@@ -41,10 +41,22 @@ export default class Home extends Component {
                 <div className="container">
                     <h1 className="mt-5">Tablice</h1>
                     <div className="row">
-                        {this.createRow()}
+                        {this.state.tables ? this.createRow() : null}
                     </div>
                 </div>
             </div>
         );
     }
 }
+
+let loadBoards = function () {
+    fetch("http://localhost:7000/boards", {
+        credentials: 'include'
+    }).then(result => {
+        if (result.status === 200) {
+            setLogged();
+            return result.json();
+        }
+    }).then(data => this.setState({tables: data}));
+};
+export {loadBoards}
