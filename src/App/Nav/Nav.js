@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Link} from "react-router-dom";
+import Login from "../Login/Login";
 
 export default class Nav extends Component {
     render() {
@@ -12,7 +13,8 @@ export default class Nav extends Component {
                     <button className="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarResponsive"
                             aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
+                        <span className="navbar-toggler-icon">
+                        </span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                         <ul className="navbar-nav ml-auto">
@@ -20,6 +22,9 @@ export default class Nav extends Component {
                                 <Link to="/" className="nav-link">Home
                                     <span className="sr-only">(current)</span>
                                 </Link>
+                            </li>
+                            <li className="nav-item active">
+                                <Login/>
                             </li>
                         </ul>
                     </div>

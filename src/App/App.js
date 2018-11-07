@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import Home from "./Home";
-import Board from "./Board";
-import Nav from "./Nav";
-import Card from "./Card";
+import Home from "./Home/Home";
+import Board from "./Board/Board";
+import Nav from "./Nav/Nav";
+import Card from "./Board/Card/Card";
 
 class App extends Component {
     render() {
