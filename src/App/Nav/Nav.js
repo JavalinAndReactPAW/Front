@@ -23,9 +23,7 @@ export default class Nav extends Component {
                                     <span className="sr-only">(current)</span>
                                 </Link>
                             </li>
-                            <li className="nav-item active">
-                                <Login/>
-                            </li>
+                            <Login/>
                         </ul>
                     </div>
                 </div>

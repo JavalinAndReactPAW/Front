@@ -14,6 +14,7 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            modalRegistered: false,
             modal: false,
             logged: false,
             login: '',
@@ -24,11 +25,20 @@ class Login extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.logout = this.logout.bind(this);
         setLogged = setLogged.bind(this);
+
+        this.toggleRegister = this.toggleRegister.bind(this);
+        this.handleSubmitRegister = this.handleSubmitRegister.bind(this);
     }
 
     toggle() {
         this.setState({
             modal: !this.state.modal
+        });
+    }
+
+    toggleRegister() {
+        this.setState({
+            modalRegistered: !this.state.modalRegistered
         });
     }
 
@@ -51,6 +61,18 @@ class Login extends React.Component {
         });
     }
 
+    handleSubmitRegister(event) {
+        event.preventDefault();
+        const data = new FormData(event.target);
+        fetch('http://localhost:7000/register', {
+            method: 'POST',
+            body: JSON.stringify({login: data.get('login'), password: data.get('password')}),
+            credentials: 'include'
+        }).finally(() => {
+            this.toggleRegister();
+        });
+    }
+
     logout() {
         const {cookies} = this.props;
         fetch('http://localhost:7000/logout', {
@@ -67,9 +89,10 @@ class Login extends React.Component {
 
     render() {
         return (
-            <div>
-                {this.state.logged ? <span className="nav-link button-pointer" onClick={this.logout}>Logout</span> :
-                    <span className="nav-link button-pointer" onClick={this.toggle}>Login</span>}
+            <>
+                {this.state.logged ? <span className="nav-link button-pointer" onClick={this.logout}>Wyloguj</span> :
+                    <><span className="nav-item active nav-link button-pointer" onClick={this.toggle}>Zaloguj</span>
+                    <span className="nav-item active nav-link button-pointer" onClick={this.toggleRegister}>Zarejestruj</span></>}
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Logowanie</ModalHeader>
                     <ModalBody>
@@ -86,13 +109,36 @@ class Login extends React.Component {
                                     <Input type="password" name="password"/>
                                 </Col>
                             </FormGroup>
-                            <Button>Submit</Button>
+                            <Button>Zaloguj</Button>
                         </Form>
                     </ModalBody>
                     <ModalFooter>
                     </ModalFooter>
                 </Modal>
-            </div>
+
+                <Modal isOpen={this.state.modalRegistered} toggle={this.toggleRegister} className={this.props.className}>
+                    <ModalHeader toggle={this.toggleRegister}>Rejestracja</ModalHeader>
+                    <ModalBody>
+                        <Form onSubmit={this.handleSubmitRegister}>
+                            <FormGroup row>
+                                <Label for="exampleEmail" sm={2}>Login</Label>
+                                <Col sm={10}>
+                                    <Input type="login" name="login"/>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Label for="examplePassword" sm={2}>Hasło</Label>
+                                <Col sm={10}>
+                                    <Input type="password" name="password"/>
+                                </Col>
+                            </FormGroup>
+                            <Button>Zarejestruj</Button>
+                        </Form>
+                    </ModalBody>
+                    <ModalFooter>
+                    </ModalFooter>
+                </Modal>
+            </>
         );
     }
 }
