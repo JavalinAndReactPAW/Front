@@ -2,12 +2,16 @@ import React, {Component} from 'react';
 import './Home.css';
 import {Link} from "react-router-dom";
 import {setLogged} from "../Login/Login"
+import CreateBoard from "./CreateBoard";
+import {UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
+
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tables: []
+            tables: [],
+            isCreateBoardOpen: false
         };
         loadBoards = loadBoards.bind(this);
     }
@@ -21,17 +25,41 @@ export default class Home extends Component {
         for (let i = 0; i < this.state.tables.length; i++) {
             row.push(
                 <div className="col-md-3" key={this.state.tables[i].id}>
-                    <Link to={'/board/' + this.state.tables[i].id}>
-                        <div className="card">
-                            <div className="card-body">
-                                {this.state.tables[i].name}
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="boardHeadFlex">
+                                <Link to={'/board/' + this.state.tables[i].id}>
+                                    <div>
+                                        {this.state.tables[i].name}</div>
+                                </Link>
+                                <div className="dotButton">
+                                    <UncontrolledButtonDropdown>
+                                        <DropdownToggle color="link" size="sm">...</DropdownToggle>
+                                        <DropdownMenu>
+                                            <DropdownItem header>Akcje Tablicy</DropdownItem>
+                                            <DropdownItem onClick={(e) => this.requestCloseBoard(e)}>Zamknij Tablicę</DropdownItem>
+                                        </DropdownMenu>
+                                    </UncontrolledButtonDropdown>
+                                </div>
                             </div>
                         </div>
-                    </Link>
+                    </div>
                 </div>)
         }
+        row.push(
+            <div className="col-md-3" key="empty">
+                    <div className="card">
+                        <div className="card-body empty-card-body" align="center">
+                            <CreateBoard isOpen={this.state.isCreateBoardOpen}/>
+                        </div>
+                    </div>
+            </div>)
 
         return row;
+    }
+
+    requestCloseBoard(){
+        console.log("CLOSING");
     }
 
     render() {

@@ -1,13 +1,19 @@
-import React, {Component} from 'react'
+import React from 'react'
 import './Board.css';
 import {Link} from "react-router-dom";
+import {Button, UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
+import CreateList from "./CreateList";
+import CardModal from "./Card/CardModal";
 
-export default class Board extends Component {
+export default class Board extends React.Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props);
+
         this.state = {
-            board: []
+            board: [],
+            isCreateListOpen: false,
+            isCardOpen: false
         };
     }
     componentDidMount() {
@@ -28,28 +34,49 @@ export default class Board extends Component {
                     <div className="col-md-3" key={list[i].id}>
                         <div className="card">
                             <div className="card-body">
-                                <p className="listName">{list[i].name}</p>
+                                <div className="listHeadFlex">
+                                    <div className="listName">{list[i].name}</div>
+                                    <div className="dotButton">
+                                        <UncontrolledButtonDropdown>
+                                            <DropdownToggle color="link" size="sm">...</DropdownToggle>
+                                            <DropdownMenu>
+                                                <DropdownItem header>Akcje Listy</DropdownItem>
+                                                <DropdownItem disabled>Action</DropdownItem>
+                                            </DropdownMenu>
+                                        </UncontrolledButtonDropdown>
+                                    </div>
+                                </div>
                                 {this.fillList(cards)}
+                                <Button className="addCard" color="link">Dodaj nową kartę</Button>
                             </div>
+
                         </div>
                     </div>);
             }
         }
+        row.push(
+            <div className="col-md-3" key="empty">
+                <div className="card">
+                    <div className="card-body empty-card-body" align="center">
+                        <CreateList isOpen={this.state.isCreateListOpen}/>
+                    </div>
+                </div>
+            </div>)
         return row;
     }
 
     fillList(cards){
         let row = [];
+
         for(let i = 0; i < cards.length; i++) {
+            console.log(cards[i]);
             row.push(
                 <div key={cards[i].id}>
-                    <Link to={'/card/' + cards[i].id}>
                     <div className="list">
                         <div className="list-body">
-                            <p>{cards[i].name}</p>
+                            <CardModal isOpen={this.state.isCardOpen} cardName={cards[i].name} cardData={cards[i]}/>
                         </div>
                     </div>
-                    </Link>
                 </div>);
         }
         return row;
