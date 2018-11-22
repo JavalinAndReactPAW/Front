@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap';
+import { Button, Modal, Form, ModalHeader, ModalBody, Input, FormGroup, Label } from 'reactstrap';
 
 class CreateBoard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            modal: this.props.isOpen
+            modal: false,
         };
 
         this.toggle = this.toggle.bind(this);
@@ -23,25 +23,40 @@ class CreateBoard extends React.Component {
         return (
             <div>
                 <Button color="primary" outline onClick={this.toggle}>+</Button>
+
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle} close={closeBtn}>Stwórz Tablicę</ModalHeader>
                     <ModalBody>
+                        <Form onSubmit={this.requestBoardCreation}>
                         <FormGroup>
                             <Label for="exampleText">Nazwa Tablicy</Label>
-                            <Input type="textarea" name="text" id="boardName" />
+                            <Input type="textarea" name="boardName" id="boardName" />
                         </FormGroup>
+                        <FormGroup className="text-center">
+                            <Button color="primary" type="submit">Stwórz</Button>{' '}
+                            <Button color="danger" onClick={this.toggle}>Anuluj</Button>
+                        </FormGroup>
+                        </Form>
                     </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.requestBoardCreation}>Stwórz</Button>{' '}
-                        <Button color="danger" onClick={this.toggle}>Anuluj</Button>
-                    </ModalFooter>
                 </Modal>
+
             </div>
         );
     }
 
-    requestBoardCreation(){
-        //send request
+    requestBoardCreation(event){
+        event.preventDefault();
+        const data = new FormData(event.target);
+        let id = Math.floor((Math.random() * 100000) + 4);
+        fetch('http://localhost:7000/board/new', {
+            method: 'POST',
+            body: JSON.stringify({id: id, name: data.get('boardName')}),
+            credentials: 'include'
+        }).then(data => {
+            if (data.status === 200) {
+                window.location.reload();
+            }
+        });
 
     }
 }

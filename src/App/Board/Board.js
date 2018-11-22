@@ -1,6 +1,5 @@
 import React from 'react'
 import './Board.css';
-import {Link} from "react-router-dom";
 import {Button, UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 import CreateList from "./CreateList";
 import CardModal from "./Card/CardModal";
@@ -69,7 +68,6 @@ export default class Board extends React.Component {
         let row = [];
 
         for(let i = 0; i < cards.length; i++) {
-            console.log(cards[i]);
             row.push(
                 <div key={cards[i].id}>
                     <div className="list">

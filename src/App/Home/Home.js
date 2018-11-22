@@ -50,7 +50,7 @@ export default class Home extends Component {
             <div className="col-md-3" key="empty">
                     <div className="card">
                         <div className="card-body empty-card-body" align="center">
-                            <CreateBoard isOpen={this.state.isCreateBoardOpen}/>
+                            <CreateBoard/>
                         </div>
                     </div>
             </div>)
@@ -65,7 +65,6 @@ export default class Home extends Component {
     render() {
         return (
             <div>
-
                 <div className="container">
                     <h1 className="mt-5">Tablice</h1>
                     <div className="row">

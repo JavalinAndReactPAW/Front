@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, FormGroup, Label } from 'reactstrap';
 
 export default class CardModal extends React.Component {
     constructor(props) {
@@ -22,9 +22,6 @@ export default class CardModal extends React.Component {
     render() {
         const closeBtn = <button className="close" onClick={this.toggle}>&times;</button>;
         let card = this.state.cardData;
-
-        console.log(card)
-
         return (
 
             <div>
