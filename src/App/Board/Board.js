@@ -17,7 +17,7 @@ export default class Board extends React.Component {
     }
     componentDidMount() {
 
-        fetch('http://localhost:7000/board/' + this.props.match.params.id).then(result => {
+        fetch('http://localhost:7000/boards/' + this.props.match.params.id).then(result => {
             return result.json();
         }).then(data => this.setState({board: data}))
 
@@ -25,6 +25,8 @@ export default class Board extends React.Component {
     createRow() {
         let row = [];
         let list = this.state.board.lists;
+        let boardID = this.state.board.id;
+        console.log(boardID);
 
         if(list) {
             for (let i = 0; i < list.length; i++) {
@@ -57,7 +59,7 @@ export default class Board extends React.Component {
             <div className="col-md-3" key="empty">
                 <div className="card">
                     <div className="card-body empty-card-body" align="center">
-                        <CreateList isOpen={this.state.isCreateListOpen}/>
+                        <CreateList id={boardID}/>
                     </div>
                 </div>
             </div>)

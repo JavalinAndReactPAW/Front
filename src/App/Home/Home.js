@@ -28,7 +28,7 @@ export default class Home extends Component {
                     <div className="card">
                         <div className="card-body">
                             <div className="boardHeadFlex">
-                                <Link to={'/board/' + this.state.tables[i].id}>
+                                <Link to={'/boards/' + this.state.tables[i].id}>
                                     <div>
                                         {this.state.tables[i].name}</div>
                                 </Link>

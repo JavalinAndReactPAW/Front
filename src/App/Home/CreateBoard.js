@@ -47,10 +47,9 @@ class CreateBoard extends React.Component {
     requestBoardCreation(event){
         event.preventDefault();
         const data = new FormData(event.target);
-        let id = Math.floor((Math.random() * 100000) + 4);
-        fetch('http://localhost:7000/board/new', {
+        fetch('http://localhost:7000/boards/new', {
             method: 'POST',
-            body: JSON.stringify({id: id, name: data.get('boardName')}),
+            body: JSON.stringify({name: data.get('boardName')}),
             credentials: 'include'
         }).then(data => {
             if (data.status === 200) {

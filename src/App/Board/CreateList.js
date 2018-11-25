@@ -5,7 +5,8 @@ class CreateList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            modal: this.props.isOpen
+            modal: false,
+            id: this.props.id
         };
 
         this.toggle = this.toggle.bind(this);
@@ -19,7 +20,6 @@ class CreateList extends React.Component {
 
     render() {
         const closeBtn = <button className="close" onClick={this.toggle}>&times;</button>;
-
         return (
             <div>
                 <Button color="primary" outline onClick={this.toggle}>+</Button>
@@ -29,7 +29,7 @@ class CreateList extends React.Component {
                         <Form onSubmit={this.requestListCreation}>
                         <FormGroup>
                             <Label for="exampleText">Nazwa Listy</Label>
-                            <Input type="textarea" name="text" id="boardName" />
+                            <Input type="textarea" name="listName" id="listName" />
                         </FormGroup>
                         <FormGroup className="text-center">
                             <Button color="primary" type="submit">Stwórz</Button>{' '}
@@ -44,18 +44,18 @@ class CreateList extends React.Component {
 
     requestListCreation(event){
         event.preventDefault();
+        let boardID= document.location.href.split('/')[4];
         const data = new FormData(event.target);
-        fetch('http://localhost:7000/list/new', {
+        fetch('http://localhost:7000/boards/'+boardID+'/lists', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json', 'Accept': 'application/json',
-                'Access-Control-Allow-Credentials': true, 'Access-Control-Allow-Origin': '*'},
-            body: JSON.stringify({id: data.get('boardID'), name: data.get('boardName')}),
+            body: JSON.stringify({name: data.get('listName')}),
             credentials: 'include'
         }).then(data => {
             if (data.status === 200) {
-                this.render();
+                window.location.reload();
             }
         });
+
 
     }
 }
