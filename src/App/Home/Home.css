@@ -4,3 +4,19 @@
 .card-body {
     background: lightgreen;
 }
+
+.empty-card-body{
+    background: transparent;
+}
+
+.boardHeadFlex {
+    display: flex;
+    margin-bottom: 10px;
+}
+.flex-child {
+    flex: 1;
+}
+.dotButton{
+    margin-left:auto;
+    margin-right:0;
+}
