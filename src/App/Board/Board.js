@@ -19,7 +19,9 @@ export default class Board extends React.Component {
     }
     componentDidMount() {
 
-        fetch('http://localhost:7000/boards/' + this.props.match.params.id).then(result => {
+        fetch('http://localhost:7000/boards/' + this.props.match.params.id , {
+            credentials: 'include'
+        }).then(result => {
             return result.json();
         }).then(data => this.setState({board: data}))
 
