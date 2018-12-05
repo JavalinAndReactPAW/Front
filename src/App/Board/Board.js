@@ -112,6 +112,11 @@ export default class Board extends React.Component {
         array.lists[modifiedIndex].cards.push(selectedCard);
         console.log(array);
         this.setState({board: array});
+
+        fetch('http://localhost:7000/boards/' + this.props.match.params.id + '/lists/'
+            + this.state.dragListId + '/cards/' + this.state.dragCardId  +'/move/' + listId, {
+            method: 'PATCH'
+        }).then(() => console.log("OK"));
     }
 
     render() {
