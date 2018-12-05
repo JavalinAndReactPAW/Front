@@ -12,7 +12,9 @@ export default class Board extends React.Component {
         this.state = {
             board: [],
             isCreateListOpen: false,
-            isCardOpen: false
+            isCardOpen: false,
+            dragCardId: "",
+            dragListId: "",
         };
     }
     componentDidMount() {
@@ -32,7 +34,8 @@ export default class Board extends React.Component {
             for (let i = 0; i < list.length; i++) {
                 let cards = list[i].cards;
                 row.push(
-                    <div className="col-md-3" key={list[i].id}>
+                    <div className="col-md-3" key={list[i].id} onDragOver={(e) => e.preventDefault()}
+                         onDrop={(e) => this.onDrop(e, list[i].id)}>
                         <div className="card">
                             <div className="card-body">
                                 <div className="listHeadFlex">
@@ -47,7 +50,7 @@ export default class Board extends React.Component {
                                         </UncontrolledButtonDropdown>
                                     </div>
                                 </div>
-                                {this.fillList(cards)}
+                                {this.fillList(cards,list[i].id)}
                                 <Button className="addCard" color="link">Dodaj nową kartę</Button>
                             </div>
 
@@ -66,12 +69,12 @@ export default class Board extends React.Component {
         return row;
     }
 
-    fillList(cards){
+    fillList(cards, listId){
         let row = [];
 
         for(let i = 0; i < cards.length; i++) {
             row.push(
-                <div key={cards[i].id}>
+                <div key={cards[i].id} draggable onDragStart={(e)=>this.onDragStart(e, cards[i].id, listId)}>
                     <div className="list">
                         <div className="list-body">
                             <CardModal isOpen={this.state.isCardOpen} cardName={cards[i].name} cardData={cards[i]}/>
@@ -80,6 +83,33 @@ export default class Board extends React.Component {
                 </div>);
         }
         return row;
+    }
+
+    onDragStart(event, cardId, listId) {
+        console.log("DRAG START, karta id = " + cardId + " lista id =" + listId)
+        this.setState({
+            dragCardId: cardId,
+            dragListId: listId
+        });
+    }
+
+    onDrop(event, listId) {
+        console.log("DRAG END listid =" + listId);
+        console.log(event.target);
+        var array = this.state.board;
+        var selectedArray = array.lists.find(data => data.id === this.state.dragListId);
+        var modifiedIndex = array.lists.indexOf(selectedArray);
+
+        var selectedCard = selectedArray.cards.find(data => data.id === this.state.dragCardId)
+        var modifiedCards = selectedArray.cards.filter(data => data.id !== this.state.dragCardId);
+        selectedArray.cards = modifiedCards;
+        array.lists[modifiedIndex] = selectedArray;
+
+        selectedArray = array.lists.find(data => data.id === listId);
+        modifiedIndex = array.lists.indexOf(selectedArray);
+        array.lists[modifiedIndex].cards.push(selectedCard);
+        console.log(array);
+        this.setState({board: array});
     }
 
     render() {
