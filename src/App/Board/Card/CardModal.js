@@ -1,6 +1,6 @@
 import React from 'react';
 import './CardModal.css'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup } from 'reactstrap';
 import { UncontrolledButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle} from 'reactstrap';
 
 export default class CardModal extends React.Component {
@@ -22,11 +22,9 @@ export default class CardModal extends React.Component {
         });
     }
 
-    requestCardDeletion(event){
+    requestCardDeletion(event, listId, cardId){
        // event.preventDefault();
         let boardID= document.location.href.split('/')[4];
-        let listId = event.target.attributes.getNamedItem('data-tag1').value;
-        let cardId = event.target.attributes.getNamedItem('data-tag2').value;
 
         fetch('http://localhost:7000/boards/'+boardID+'/lists/'+listId+'/cards/:'+cardId, {
             method: 'DELETE',
@@ -73,7 +71,7 @@ export default class CardModal extends React.Component {
                             <DropdownToggle color="link" size="sm">...</DropdownToggle>
                             <DropdownMenu>
                                 <DropdownItem header>Akcje Karty</DropdownItem>
-                                <DropdownItem data-tag1={listId} data-tag2={cardId} onClick={this.requestCardDeletion}>Usuń</DropdownItem>
+                                <DropdownItem onClick={(e) => this.requestCardDeletion(e, listId, cardId)}>Usuń</DropdownItem>
                             </DropdownMenu>
                         </UncontrolledButtonDropdown>
                     </ModalFooter>

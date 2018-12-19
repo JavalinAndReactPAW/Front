@@ -23,7 +23,8 @@ export default class Home extends Component {
     createRow() {
         let row = [];
         for (let i = 0; i < this.state.tables.length; i++) {
-            let boardState = this.state.tables[i].boardstate;
+            let boardState = this.state.tables[i].boardState;
+            console.log(boardState);
             row.push(
                 <div className="col-md-3" key={this.state.tables[i].id}>
                     <div className="card">
@@ -36,10 +37,7 @@ export default class Home extends Component {
                                 <div className="dotButton">
                                     <UncontrolledButtonDropdown>
                                         <DropdownToggle color="link" size="sm">...</DropdownToggle>
-                                        <DropdownMenu>
-                                            <DropdownItem header>Akcje Tablicy</DropdownItem>
-                                            <DropdownItem onClick={(e) => this.requestCloseBoard(e)}>Zamknij Tablicę</DropdownItem>
-                                        </DropdownMenu>
+                                        {this.getDropdownMenuButtons(boardState,this.state.tables[i].id)}
                                     </UncontrolledButtonDropdown>
                                 </div>
                             </div>
@@ -54,26 +52,77 @@ export default class Home extends Component {
                         <CreateBoard/>
                     </div>
                 </div>
-            </div>)
+            </div>);
 
         return row;
     }
 
-    getDropdownMenuButtons(boardstate) {
-        if (boardstate === 0){
-            return
+    getDropdownMenuButtons(boardstate, boardId) {
+        if (boardstate === "ACTIVE"){
+            return  ( <DropdownMenu>
+                            <DropdownItem header>Akcje Tablicy</DropdownItem>
+                            <DropdownItem onClick={(e) => this.requestDisableBoard(e, boardId)}>Zamknij Tablicę</DropdownItem>
+                            <DropdownItem onClick={(e) => this.requestDeleteBoard(e, boardId)}>Usuń Tablicę</DropdownItem>
+                        </DropdownMenu>);
         }
-        else if (boardstate === 1){
-            return
-        }else{
-            return
+        else if (boardstate === "DISABLED"){
+            return  ( <DropdownMenu>
+                            <DropdownItem header>Akcje Tablicy</DropdownItem>
+                            <DropdownItem onClick={(e) => this.requestEnableBoard(e, boardId)}>Otwórz Tablicę</DropdownItem>
+                            <DropdownItem onClick={(e) => this.requestDeleteBoard(e, boardId)}>Usuń Tablicę</DropdownItem>
+                        </DropdownMenu>);
         }
-
     }
 
+    requestDisableBoard(event, boardID){
+        event.preventDefault();
 
-    requestCloseBoard(){
-        console.log("CLOSING");
+        fetch('http://localhost:7000/boards/'+boardID, {
+            method: 'PATCH',
+            body: JSON.stringify({action: "disable"}),
+            credentials: 'include'
+        }).then(data => {
+            if (data.status === 200) {
+                window.location.reload();
+            }
+            else{
+                console.log("COULDNT DISABLE BOARD "+boardID);
+            }
+        });
+    }
+
+    requestEnableBoard(event, boardID){
+        event.preventDefault();
+
+        fetch('http://localhost:7000/boards/'+boardID, {
+            method: 'PATCH',
+            body: JSON.stringify({action: "enable"}),
+            credentials: 'include'
+        }).then(data => {
+            if (data.status === 200) {
+                window.location.reload();
+            }
+            else{
+                console.log("COULDNT DISABLE BOARD "+boardID);
+            }
+        });
+    }
+
+    requestDeleteBoard(event, boardID){
+        event.preventDefault();
+
+        fetch('http://localhost:7000/boards/'+boardID, {
+            method: 'PATCH',
+            body: JSON.stringify({action: "delete"}),
+            credentials: 'include'
+        }).then(data => {
+            if (data.status === 200) {
+                window.location.reload();
+            }
+            else{
+                console.log("COULDNT DELETE BOARD "+boardID);
+            }
+        });
     }
 
     render() {
