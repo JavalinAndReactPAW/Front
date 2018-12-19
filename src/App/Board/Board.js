@@ -15,7 +15,6 @@ export default class Board extends React.Component {
             isCardOpen: false,
             dragCardId: "",
             dragListId: "",
-            isAddCardEditable: [],
         };
     }
     componentDidMount() {
@@ -49,7 +48,7 @@ export default class Board extends React.Component {
                                             <DropdownToggle color="link" size="sm">...</DropdownToggle>
                                             <DropdownMenu>
                                                 <DropdownItem header>Akcje Listy</DropdownItem>
-                                                <DropdownItem disabled>Action</DropdownItem>
+                                                <DropdownItem>Action</DropdownItem>
                                             </DropdownMenu>
                                         </UncontrolledButtonDropdown>
                                     </div>
@@ -113,7 +112,7 @@ export default class Board extends React.Component {
                 <div key={cards[i].id} draggable onDragStart={(e)=>this.onDragStart(e, cards[i].id, listId)}>
                     <div className="list">
                         <div className="list-body">
-                            <CardModal isOpen={this.state.isCardOpen} cardName={cards[i].name} cardData={cards[i]}/>
+                            <CardModal isOpen={this.state.isCardOpen} cardName={cards[i].name} cardData={cards[i]} cardId={cards[i].id} listId={listId}/>
                         </div>
                     </div>
                 </div>);

@@ -23,6 +23,7 @@ export default class Home extends Component {
     createRow() {
         let row = [];
         for (let i = 0; i < this.state.tables.length; i++) {
+            let boardState = this.state.tables[i].boardstate;
             row.push(
                 <div className="col-md-3" key={this.state.tables[i].id}>
                     <div className="card">
@@ -48,15 +49,28 @@ export default class Home extends Component {
         }
         row.push(
             <div className="col-md-3" key="empty">
-                    <div className="card">
-                        <div className="card-body empty-card-body" align="center">
-                            <CreateBoard/>
-                        </div>
+                <div className="card">
+                    <div className="card-body empty-card-body" align="center">
+                        <CreateBoard/>
                     </div>
+                </div>
             </div>)
 
         return row;
     }
+
+    getDropdownMenuButtons(boardstate) {
+        if (boardstate === 0){
+            return
+        }
+        else if (boardstate === 1){
+            return
+        }else{
+            return
+        }
+
+    }
+
 
     requestCloseBoard(){
         console.log("CLOSING");
