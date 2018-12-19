@@ -93,7 +93,7 @@ export default class Board extends React.Component {
         let data = event.target.value;
         fetch('http://localhost:7000/boards/'+boardID+'/lists/'+listID+'/cards', {
             method: 'POST',
-            body: JSON.stringify({cardName: data}),
+            body: JSON.stringify({name: data}),
             credentials: 'include'
         }).then(data => {
             if (data.status === 200) {
