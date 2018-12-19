@@ -77,9 +77,8 @@ export default class Home extends Component {
     requestDisableBoard(event, boardID){
         event.preventDefault();
 
-        fetch('http://localhost:7000/boards/'+boardID, {
-            method: 'PATCH',
-            body: JSON.stringify({action: "disable"}),
+        fetch('http://localhost:7000/boards/'+boardID+'/disable', {
+            method: 'POST',
             credentials: 'include'
         }).then(data => {
             if (data.status === 200) {
@@ -94,9 +93,8 @@ export default class Home extends Component {
     requestEnableBoard(event, boardID){
         event.preventDefault();
 
-        fetch('http://localhost:7000/boards/'+boardID, {
-            method: 'PATCH',
-            body: JSON.stringify({action: "enable"}),
+        fetch('http://localhost:7000/boards/'+boardID+'/enable', {
+            method: 'POST',
             credentials: 'include'
         }).then(data => {
             if (data.status === 200) {
@@ -111,9 +109,8 @@ export default class Home extends Component {
     requestDeleteBoard(event, boardID){
         event.preventDefault();
 
-        fetch('http://localhost:7000/boards/'+boardID, {
-            method: 'PATCH',
-            body: JSON.stringify({action: "delete"}),
+        fetch('http://localhost:7000/boards/'+boardID+'/delete', {
+            method: 'POST',
             credentials: 'include'
         }).then(data => {
             if (data.status === 200) {
