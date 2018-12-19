@@ -41,7 +41,32 @@
 
 .addCard{
     font-size: 80%;
-    position: absolute;
     bottom: 0;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    text-align: center;
 
+}
+
+input[type=text] {
+    border: none;
+    border-bottom: 2px solid lawngreen;
+    border-radius: 4px;
+}
+
+::-webkit-input-placeholder {
+    text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    text-align: center;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    text-align: center;
+}
+
+:-ms-input-placeholder {
+    text-align: center;
 }
