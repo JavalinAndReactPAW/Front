@@ -50,12 +50,12 @@ export default class CardModal extends React.Component {
 
     returnCardComments(cardComments){
         if(cardComments.length !== 0 && cardComments !== null){
-            let commentsBlock=<br/>;
-            console.log(cardComments[0].value);
+            let commentsBlock = [];
+
             for(let i = 0; i < cardComments.length; i++){
                 let tmp = cardComments[i].value;
-                commentsBlock += <p>{tmp}</p>;
-            };
+                commentsBlock.push(<p>{tmp}</p>);
+            }
             console.log(commentsBlock);
             return commentsBlock;
         }
@@ -119,9 +119,9 @@ export default class CardModal extends React.Component {
                                 <p>{cardDesc}</p>
                             </div>
                             <div className="top-border">
-                                <div>Komentarze</div>
+                                <div className="comments-title">Komentarze</div>
                                 <p>{cardComments}</p>
-                                <p><textarea className="comment-input" type="text" name="a" placeholder="Dodaj Komentarz" onKeyPress={(e) => this.handleCommentInputField(e, listId, cardId)}/></p>
+                                <p><textarea className="comment-input" name="a" placeholder="Dodaj Komentarz" onKeyPress={(e) => this.handleCommentInputField(e, listId, cardId)}/></p>
                             </div>
                         </FormGroup>
                     </ModalBody>

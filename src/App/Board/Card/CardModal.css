@@ -13,9 +13,11 @@
 .comments-header{
     display: table-cell;
 }
+.comments-title{
+    padding-bottom: 10px;
+}
 
-
-.comment-input[type=text] {
+textarea {
     border: 1px solid #e5e5e5;
     border-radius: 4px;
     width: 100%;
