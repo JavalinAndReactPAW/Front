@@ -72,10 +72,10 @@ export default class CardModal extends React.Component {
                 let tmpVal = cardComments[i].value;
                 let tmpAuthor = cardComments[i].addedBy;
                 const deleteBtn = <button className="close" onClick={(e) => this.requestCommentDeletion(e,listId,cardId,cardComments[i].id)}>&times;</button>;
-                commentsBlock.push(<div className="comments-header">{tmpVal}</div>);
-                commentsBlock.push(<div className="comments-author">{tmpAuthor}</div>);
-                commentsBlock.push(<div className="comments-delete">{deleteBtn}</div>);
-                commentsBlock.push(<div className="comments-row"><br/></div>);
+                commentsBlock.push(<div key={cardId} className="comments-header">{tmpVal}</div>);
+                commentsBlock.push(<div key={cardId} className="comments-author">{tmpAuthor}</div>);
+                commentsBlock.push(<div key={cardId} className="comments-delete">{deleteBtn}</div>);
+                commentsBlock.push(<div key={cardId} className="comments-row"><br/></div>);
             }
             return commentsBlock;
         }
