@@ -3,6 +3,7 @@ import './Board.css';
 import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 import CreateList from "./CreateList";
 import CardModal from "./Card/CardModal";
+import {setLogged} from "../Login/Login";
 
 export default class Board extends React.Component {
 
@@ -22,7 +23,10 @@ export default class Board extends React.Component {
         fetch('http://localhost:7000/boards/' + this.props.match.params.id , {
             credentials: 'include'
         }).then(result => {
-            return result.json();
+            if (result.status === 200) {
+                setLogged();
+                return result.json();
+            }
         }).then(data => this.setState({board: data}))
 
     }
@@ -48,7 +52,7 @@ export default class Board extends React.Component {
                                             <DropdownToggle color="link" size="sm">...</DropdownToggle>
                                             <DropdownMenu>
                                                 <DropdownItem header>Akcje Listy</DropdownItem>
-                                                <DropdownItem>Action</DropdownItem>
+                                                <DropdownItem onClick={(e) => this.requestListDeletetion(e, list[i].id)}>Usuń</DropdownItem>
                                             </DropdownMenu>
                                         </UncontrolledButtonDropdown>
                                     </div>
@@ -94,6 +98,22 @@ export default class Board extends React.Component {
         fetch('http://localhost:7000/boards/'+boardID+'/lists/'+listID+'/cards', {
             method: 'POST',
             body: JSON.stringify({name: data}),
+            credentials: 'include'
+        }).then(data => {
+            if (data.status === 200) {
+                window.location.reload();
+            }
+            else{
+                console.log("CREATION ERROR");
+            }
+        });
+    }
+
+    requestListDeletetion(event, listID){
+        event.preventDefault();
+        let boardID= document.location.href.split('/')[4];
+        fetch('http://localhost:7000/boards/'+boardID+'/lists/'+listID+'/delete', {
+            method: 'POST',
             credentials: 'include'
         }).then(data => {
             if (data.status === 200) {
