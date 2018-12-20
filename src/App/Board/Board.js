@@ -54,23 +54,24 @@ export default class Board extends React.Component {
                                     </div>
                                 </div>
                                 {this.fillList(cards,list[i].id)}
-                                <div className="addCard">
-                                    <input type="text" name={list[i].id} placeholder="Dodaj Kartę" onKeyPress={this.handleCardCreationField} />
-                                </div>
+                                {this.addButtonAdd(list[i].id)}
+
                             </div>
 
                         </div>
                     </div>);
             }
         }
-        row.push(
-            <div className="col-md-3" key="empty">
-                <div className="card">
-                    <div className="card-body empty-card-body" align="center">
-                        <CreateList id={boardID}/>
+        if(this.state.board.boardState==='ACTIVE') {
+            row.push(
+                <div className="col-md-3" key="empty">
+                    <div className="card">
+                        <div className="card-body empty-card-body" align="center">
+                            <CreateList id={boardID}/>
+                        </div>
                     </div>
-                </div>
-            </div>);
+                </div>);
+        }
         return row;
     }
 
@@ -104,6 +105,13 @@ export default class Board extends React.Component {
         });
     }
 
+    addButtonAdd(id){
+        if(this.state.board.boardState==='ACTIVE') {
+            return (<div className="addCard">
+                <input type="text" name={id} placeholder="Dodaj Kartę" onKeyPress={this.handleCardCreationField} />
+            </div>)
+        }
+    }
     fillList(cards, listId){
         let row = [];
 
@@ -121,35 +129,39 @@ export default class Board extends React.Component {
     }
 
     onDragStart(event, cardId, listId) {
-        console.log("DRAG START, karta id = " + cardId + " lista id =" + listId)
-        this.setState({
-            dragCardId: cardId,
-            dragListId: listId
-        });
+        if(this.state.board.boardState==='ACTIVE') {
+            console.log("DRAG START, karta id = " + cardId + " lista id =" + listId)
+            this.setState({
+                dragCardId: cardId,
+                dragListId: listId
+            });
+        }
     }
 
     onDrop(event, listId) {
-        console.log("DRAG END listid =" + listId);
-        console.log(event.target);
-        var array = this.state.board;
-        var selectedArray = array.lists.find(data => data.id === this.state.dragListId);
-        var modifiedIndex = array.lists.indexOf(selectedArray);
+        if(this.state.board.boardState==='ACTIVE') {
+            console.log("DRAG END listid =" + listId);
+            console.log(event.target);
+            var array = this.state.board;
+            var selectedArray = array.lists.find(data => data.id === this.state.dragListId);
+            var modifiedIndex = array.lists.indexOf(selectedArray);
 
-        var selectedCard = selectedArray.cards.find(data => data.id === this.state.dragCardId);
-        var modifiedCards = selectedArray.cards.filter(data => data.id !== this.state.dragCardId);
-        selectedArray.cards = modifiedCards;
-        array.lists[modifiedIndex] = selectedArray;
+            var selectedCard = selectedArray.cards.find(data => data.id === this.state.dragCardId);
+            var modifiedCards = selectedArray.cards.filter(data => data.id !== this.state.dragCardId);
+            selectedArray.cards = modifiedCards;
+            array.lists[modifiedIndex] = selectedArray;
 
-        selectedArray = array.lists.find(data => data.id === listId);
-        modifiedIndex = array.lists.indexOf(selectedArray);
-        array.lists[modifiedIndex].cards.push(selectedCard);
-        console.log(array);
-        this.setState({board: array});
+            selectedArray = array.lists.find(data => data.id === listId);
+            modifiedIndex = array.lists.indexOf(selectedArray);
+            array.lists[modifiedIndex].cards.push(selectedCard);
+            console.log(array);
+            this.setState({board: array});
 
-        fetch('http://localhost:7000/boards/' + this.props.match.params.id + '/lists/'
-            + this.state.dragListId + '/cards/' + this.state.dragCardId  +'/move/' + listId, {
-            method: 'PATCH'
-        }).then(() => console.log("OK"));
+            fetch('http://localhost:7000/boards/' + this.props.match.params.id + '/lists/'
+                + this.state.dragListId + '/cards/' + this.state.dragCardId + '/move/' + listId, {
+                method: 'PATCH'
+            }).then(() => console.log("OK"));
+        }
     }
 
     render() {

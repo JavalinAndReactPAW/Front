@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {Link} from "react-router-dom";
 import Login from "../Login/Login";
 
 export default class Nav extends Component {
@@ -19,9 +18,9 @@ export default class Nav extends Component {
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item active">
-                                <Link to="/" className="nav-link">Home
+                                <a href="/" className="nav-link">Home
                                     <span className="sr-only">(current)</span>
-                                </Link>
+                                </a>
                             </li>
                             <Login/>
                         </ul>

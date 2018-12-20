@@ -26,8 +26,8 @@ export default class CardModal extends React.Component {
         event.preventDefault();
         let boardID= document.location.href.split('/')[4];
 
-        fetch('http://localhost:7000/boards/'+boardID+'/lists/'+listId+'/cards/:'+cardId, {
-            method: 'DELETE',
+        fetch('http://localhost:7000/boards/'+boardID+'/lists/'+listId+'/cards/'+cardId+'/delete', {
+            method: 'POST',
             credentials: 'include'
         }).then(data => {
             if (data.status === 200) {
@@ -43,8 +43,8 @@ export default class CardModal extends React.Component {
         e.preventDefault();
         let boardID= document.location.href.split('/')[4];
 
-        fetch('http://localhost:7000/boards/'+boardID+'/lists/'+listId+'/cards/:'+cardId+"/comments/"+commentId, {
-            method: 'DELETE',
+        fetch('http://localhost:7000/boards/'+boardID+'/lists/'+listId+'/cards/'+cardId+"/comments/"+commentId+"/delete", {
+            method: 'POST',
             credentials: 'include'
         }).then(data => {
             if (data.status === 200) {
