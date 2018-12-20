@@ -13,6 +13,18 @@
 .comments-header{
     display: table-cell;
 }
+.comments-delete{
+    display: table-cell;
+    text-align: right;
+    margin-right: 6px;
+}
+.comments-author{
+    display: table-cell;
+    margin-right: 10px;
+}
+.comments-row{
+    display: table-row;
+}
 .comments-title{
     padding-bottom: 10px;
 }

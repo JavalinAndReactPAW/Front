@@ -39,6 +39,23 @@ export default class CardModal extends React.Component {
         });
     }
 
+    requestCommentDeletion(e, listId, cardId, commentId){
+        e.preventDefault();
+        let boardID= document.location.href.split('/')[4];
+
+        fetch('http://localhost:7000/boards/'+boardID+'/lists/'+listId+'/cards/:'+cardId+"/comments/"+commentId, {
+            method: 'DELETE',
+            credentials: 'include'
+        }).then(data => {
+            if (data.status === 200) {
+                window.location.reload();
+            }
+            else{
+                console.log("Deletion ERROR");
+            }
+        });
+    }
+
     returnCardDescription(cardDesc){
         if(cardDesc !== "" && cardDesc !== null){
             return cardDesc;
@@ -48,15 +65,18 @@ export default class CardModal extends React.Component {
         }
     }
 
-    returnCardComments(cardComments){
+    returnCardComments(cardComments, listId, cardId){
         if(cardComments.length !== 0 && cardComments !== null){
             let commentsBlock = [];
-
             for(let i = 0; i < cardComments.length; i++){
-                let tmp = cardComments[i].value;
-                commentsBlock.push(<p>{tmp}</p>);
+                let tmpVal = cardComments[i].value;
+                let tmpAuthor = cardComments[i].addedBy;
+                const deleteBtn = <button className="close" onClick={(e) => this.requestCommentDeletion(e,listId,cardId,cardComments[i].id)}>&times;</button>;
+                commentsBlock.push(<div className="comments-header">{tmpVal}</div>);
+                commentsBlock.push(<div className="comments-author">{tmpAuthor}</div>);
+                commentsBlock.push(<div className="comments-delete">{deleteBtn}</div>);
+                commentsBlock.push(<div className="comments-row"><br/></div>);
             }
-            console.log(commentsBlock);
             return commentsBlock;
         }
         else{
@@ -106,7 +126,7 @@ export default class CardModal extends React.Component {
         let listId = this.state.listId;
         let cardId = this.state.cardId;
         let cardDesc= this.returnCardDescription(card.value);
-        let cardComments = this.returnCardComments(card.comments);
+        let cardComments = this.returnCardComments(card.comments,listId,cardId);
 
         return (
             <div>
@@ -120,7 +140,9 @@ export default class CardModal extends React.Component {
                             </div>
                             <div className="top-border">
                                 <div className="comments-title">Komentarze</div>
-                                <p>{cardComments}</p>
+                                <div className="comments-header-div">
+                                {cardComments}
+                                </div>
                                 <p><textarea className="comment-input" name="a" placeholder="Dodaj Komentarz" onKeyPress={(e) => this.handleCommentInputField(e, listId, cardId)}/></p>
                             </div>
                         </FormGroup>
